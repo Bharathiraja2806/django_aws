@@ -78,8 +78,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "aws_db",
         'USER': "root",
-        'PASSWORD': "isss@123",
-        'HOST': "localhost",
+        'PASSWORD': "root",
+        'HOST': "db",
         'PORT': "3306",
     }
 }
