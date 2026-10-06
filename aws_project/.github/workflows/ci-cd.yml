@@ -1,0 +1,86 @@
+name: Django CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+
+  test:
+
+    name: Test Django Application
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Get the GitHub repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+
+      # 2. Check Docker installation
+      - name: Check Docker
+        run: |
+          docker --version
+          docker compose version
+
+
+      # 3. Build Django and MySQL containers
+      - name: Build Docker containers
+        run: |
+          docker compose build
+
+
+      # 4. Start containers
+      - name: Start containers
+        run: |
+          docker compose up -d
+
+
+      # 5. Show running containers
+      - name: Check containers
+        run: |
+          docker compose ps
+
+
+      # 6. Wait for MySQL/Django services
+      - name: Wait for services
+        run: |
+          sleep 15
+
+
+      # 7. Django system check
+      - name: Django check
+        run: |
+          docker compose exec -T web python manage.py check
+
+
+      # 8. Check migrations
+      - name: Check migrations
+        run: |
+          docker compose exec -T web python manage.py makemigrations --check --dry-run
+
+
+      # 9. Apply migrations
+      - name: Run migrations
+        run: |
+          docker compose exec -T web python manage.py migrate
+
+
+      # 10. Run Django tests
+      - name: Run tests
+        run: |
+          docker compose exec -T web python manage.py test
+
+
+      # 11. Stop containers
+      - name: Stop containers
+        if: always()
+        run: |
+          docker compose down
