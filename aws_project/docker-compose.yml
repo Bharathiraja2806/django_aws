@@ -22,7 +22,7 @@ services:
 
   web:
     build: .
-    container_name: django_web
+    container_name: django_web_app
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
