@@ -33,54 +33,63 @@ jobs:
 
       # 3. Build Django and MySQL containers
       - name: Build Docker containers
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose build
 
 
       # 4. Start containers
       - name: Start containers
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose up -d
 
 
       # 5. Show running containers
       - name: Check containers
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose ps
 
 
       # 6. Wait for MySQL/Django services
       - name: Wait for services
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           sleep 15
 
 
       # 7. Django system check
       - name: Django check
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose exec -T web python manage.py check
 
 
       # 8. Check migrations
       - name: Check migrations
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose exec -T web python manage.py makemigrations --check --dry-run
 
 
       # 9. Apply migrations
       - name: Run migrations
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose exec -T web python manage.py migrate
 
 
       # 10. Run Django tests
       - name: Run tests
+        working-directory: ./aws_project #this is for docker compose file path
         run: |
           docker compose exec -T web python manage.py test
 
 
       # 11. Stop containers
       - name: Stop containers
+        working-directory: ./aws_project #this is for docker compose file path
         if: always()
         run: |
           docker compose down
