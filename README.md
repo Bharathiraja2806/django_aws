@@ -60,5 +60,36 @@ start stopped compose services => docker compose start
 
 stop and remove containers => docker compose down
 
+==============================================================
+build a image => docker build -t django-app .
+
+FROM python:3.12
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+Dockerfile
+    ↓
+docker build
+    ↓
+Docker IMAGE
+==================================================================
+
+create and start a container => docker run -d -p 8000:8000 --name django-container django-app
+
+docker ps
+
+
+
+
+
 continue from 26 
- 
