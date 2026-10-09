@@ -86,8 +86,54 @@ Docker IMAGE
 
 create and start a container => docker run -d -p 8000:8000 --name django-container django-app
 
-docker ps
+to check containers => docker ps
 
+
+To stop all volumes => docker compose down -v (but don't use for mysql database because this cmd delete all the data also)
+so for database volume stop => docker compose down 
+
+
+To build compose services => docker compose build
+like below workflow 
+
+docker-compose.yml
+        ↓
+web
+        ↓
+Dockerfile
+        ↓
+aws_project-web image
+
+===================================================================================================
+
+Build without cache :
+it is very useful when we dont want old layers so that we can use => docker compose build --no-cache
+this will rebuild completely
+Use this when you suspect Docker is using an old layer.
+
+==================================================================================================
+
+Rebuild and start => docker compose up --build or docker compose up -d --build
+
+Build latest image
+       ↓
+Start containers
+
+Check Compose containers => docker compose ps
+
+View compose logs => docker compose logs
+
+view only django logs => docker commpose logs web
+
+view only mysql logs => docker compose logs db 
+
+follow composse logs => docker compose logs -f 
+
+==============================================================================================
+
+Execute django commands:
+
+docker compose exec web python manage.py check
 
 
 
