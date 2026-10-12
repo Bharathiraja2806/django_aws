@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .models import Employee
 
 # Create your views here.
 def home(request):
@@ -11,6 +12,9 @@ def index(request):
         mobile = request.POST.get('mobile')
         department = request.POST.get('department')
         salary = request.POST.get('salary')
+
+        Data = Employee(name=name, email=email, mobile=mobile, department=department, salary=salary)
+        Data.save()
 
         return redirect('home')
     
