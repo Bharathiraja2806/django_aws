@@ -13,9 +13,14 @@ def index(request):
         department = request.POST.get('department')
         salary = request.POST.get('salary')
 
-        Data = Employee(name=name, email=email, mobile=mobile, department=department, salary=salary)
+        Data = Employee(name=name, email=email, phone=mobile, department=department, salary=salary)
         Data.save()
 
         return redirect('home')
     
     return render(request, 'index.html')
+
+def view_data(request):
+
+    employees = Employee.objects.all()
+    return render(request, 'data.html', {"employees": employees})
