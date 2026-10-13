@@ -24,3 +24,24 @@ def view_data(request):
 
     employees = Employee.objects.all()
     return render(request, 'data.html', {"employees": employees})
+
+def delete_data(request, id):
+
+    employee = Employee.objects.get(id=id)
+    employee.delete()
+    return redirect('view_data')
+
+def update_dtaa(request, id):
+    employee = Employee.objects.get(id=id)
+
+    if request.method == 'POST':
+        employee.name = request.POST.get('name')
+        employee.email = request.POST.get('email')
+        employee.phone = request.POST.get('mobile')
+        employee.department = request.POST.get('department')
+        employee.salary = request.POST.get('salary')
+
+        employee.save()
+        return redirect('view_data')
+
+    return render(request, 'update.html', {"employee": employee})
